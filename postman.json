@@ -1,0 +1,4951 @@
+{
+	"info": {
+		"_postman_id": "d69975fa-ca59-4b30-9378-f8756fbbf54a",
+		"name": "MimePost",
+		"description": "# 📧 MimePost API\n\n**MimePost** is a secure, high-performance **transactional email delivery platform** designed for developers, startups, and businesses that need to send **business-critical emails** with maximum deliverability and privacy.\n\nThis Postman collection provides **ready-to-use API requests** for sending, managing, and tracking emails using the MimePost HTTP API.\n\n---\n\n## 🚀 Key Features\n\n- **Transactional Email Only** — Send critical messages like receipts, OTPs, password resets, and notifications.\n    \n- **Template-Based Sending** — All emails use approved templates (raw HTML sending is not allowed).\n    \n- **Domain & DKIM Verification** — Secure your sending domain for maximum deliverability.\n    \n- **Webhooks** — Get real-time updates for delivered, opened, bounced, or failed messages.\n    \n- **Email Logs** — Track every message and event with detailed logs.\n    \n\n---\n\n## 🔐 Authentication\n\nAll requests require an **API Token**.\n\n1. Log in to your [MimePost Dashboard](https://mimepost.com/app/integration/api_tokens?utm_source=postman.com).\n    \n2. Go to **Integration → API Tokens**.\n    \n3. Create or copy your token.\n    \n4. In Postman, set it as an environment variable: api_token =\n    \n5. Every request must include this header: X-Auth-Token: {{api_token}}\n    \n\n---\n\n## 📂 What’s Included\n\n- **Email** → Send transactional emails using templates.\n    \n- **Template** → Create, copy, and manage templates.\n    \n- **Domains** → Add, verify, and configure sending domains.\n    \n- **Webhooks** → Set up event webhooks for tracking.\n    \n- **Billing** → View account billing information.\n    \n- **Stats & Logs** → Access email logs, statistics, and delivery insights.\n    \n- **Sandbox** → Safely test email sending without impacting deliverability.\n    \n\n---\n\n## 📝 Usage Notes\n\n- ❌ **No marketing or promotional emails** — MimePost is built for **transactional and business-critical communication only**.\n    \n- ✅ Always test new templates in the **Sandbox** before using them in production.\n    \n- 🔒 Keep your **API Tokens secure** — never expose them publicly.\n    \n\n---\n\n## ▶️ Quick Start\n\n1. Verify your sending domain in **Domains**.\n    \n2. Create an approved template in **Templates**.\n    \n3. Generate an API Token in **Integration → API Tokens**.\n    \n4. Use the **Email → Send Transactional Email** request in this collection.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "48170345",
+		"_collection_link": "https://www.postman.com/mimepost/mimepost-api-public/collection/fxxc1jg/mimepost?action=share&source=collection_link&creator=48170345"
+	},
+	"item": [
+		{
+			"name": "Email",
+			"item": [
+				{
+					"name": "Send a single email",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"description": "### Body parameters\n\n| Field | Type | Required | Description |\n| --- | --- | --- | --- |\n| `template_uid` | string | yes | Approved template identifier in MimePost. |\n| `subject` | string | yes | Email subject line (≤ 255 chars). |\n| `from_email` | string (email) | yes | Sender address from a verified domain. |\n| `from_name` | string | no | Friendly sender name. |\n| `global_merge_vars` | array | no | Variables applied to all recipients unless overridden. |\n| `to` | array | yes | Primary recipients. |\n| `cc` | array | no | CC recipients. |\n| `bcc` | array | no | BCC recipients. |\n| `attachments` | array | no | Attachment refs (IDs/URLs if supported). |\n| `vars` | object | no | Custom metadata (key–value pairs). |\n\n**Recipient**  \n`{ \"email\": string, \"merge_vars\": array }`\n\n**MergeVar**  \n`{ \"name\": string, \"value\": string }`"
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"template_uid\": \"welcome_email_test0215\",\n  \"subject\": \"Hello from Mimepost\",\n  \"from_email\": \"from@example.com\",\n  \"from_name\": \"Marketing Team\",\n  \"global_merge_vars\": [\n    { \"name\": \"FIRST_NAME\", \"value\": \"Dear User\" }\n  ],\n  \"to\": [\n    {\n      \"email\": \"to@example.com\",\n      \"merge_vars\": [\n        { \"name\": \"FIRST_NAME\", \"value\": \"John\" }\n      ]\n    }\n  ],\n  \"cc\": [\"cc@example.com\"],\n  \"bcc\": [\"bcc@example.com\"],\n  \"attachments\": [],\n  \"vars\": {\n    \"user_id\": \"12345\",\n    \"invoice_id\": \"abcde\"\n  }\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{api_url}}emails/"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 05 Sep 2025 13:33:33 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "268"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"domain": "",
+									"path": ""
+								}
+							],
+							"body": "{\n    \"success\": 1,\n    \"error_code\": 0,\n    \"message\": \"Mails accepted\",\n    \"queue_ids\": {\n        \"to@example.com\": {\n            \"status\": \"d22c7b30-6d1c-420f-97ab-392693203ccb\",\n            \"cc\": {\n                \"cc@example.com\": \"dbdfd239-93aa-4069-b504-40f029b10329\"\n            },\n            \"bcc\": {\n                \"bcc@example.com\": \"f26e151d-ffe1-4b70-b2ab-df10ad295807\"\n            }\n        }\n    }\n}"
+						},
+						{
+							"name": "400 Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"template_uid\": \"welcome_email_test0215\",\n  \"subject\": \"Hello from Mimepost\",\n  \"from_email\": \"from@example.com\",\n  \"from_name\": \"Marketing Team\",\n  \"global_merge_vars\": [\n    { \"name\": \"FIRST_NAME\", \"value\": \"Dear User\" }\n  ],\n  \"to\": [\n    {\n      \"email\": \"to@example.com\",\n      \"merge_vars\": [\n        { \"name\": \"FIRST_NAME\", \"value\": \"John\" }\n      ]\n    }\n  ],\n  \"cc\": [\"cc@example.com\"],\n  \"bcc\": [\"bcc@example.com\"],\n  \"attachments\": [],\n  \"vars\": {\n    \"user_id\": \"12345\",\n    \"invoice_id\": \"abcde\"\n  }\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{api_url}}emails/"
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 05 Sep 2025 14:05:47 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "138"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=UTF-8"
+								}
+							],
+							"cookie": [],
+							"body": "{\"success\":0,\"error_code\":400,\"message\":\"Sender Domain Not Approved. To fix this, either get Your Domain approved OR use a Sandbox Email\"}"
+						},
+						{
+							"name": "401 Unauthorized",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"template_uid\": \"welcome_email_test02151\",\n  \"subject\": \"Hello from Mimepost\",\n  \"from_email\": \"from@example.com\",\n  \"from_name\": \"Marketing Team\",\n  \"global_merge_vars\": [\n    { \"name\": \"FIRST_NAME\", \"value\": \"Dear User\" }\n  ],\n  \"to\": [\n    {\n      \"email\": \"to@example.com\",\n      \"merge_vars\": [\n        { \"name\": \"FIRST_NAME\", \"value\": \"John\" }\n      ]\n    }\n  ],\n  \"cc\": [\"cc@example.com\"],\n  \"bcc\": [\"bcc@example.com\"],\n  \"attachments\": [],\n  \"vars\": {\n    \"user_id\": \"12345\",\n    \"invoice_id\": \"abcde\"\n  }\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{api_url}}emails/"
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 05 Sep 2025 13:53:14 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "63"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 0,\n    \"error_code\": 101,\n    \"message\": \"Auth token not valid\"\n}"
+						},
+						{
+							"name": "404 Not Found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"template_uid\": \"welcome_email_test02151\",\n  \"subject\": \"Hello from Mimepost\",\n  \"from_email\": \"from@example.com\",\n  \"from_name\": \"Marketing Team\",\n  \"global_merge_vars\": [\n    { \"name\": \"FIRST_NAME\", \"value\": \"Dear User\" }\n  ],\n  \"to\": [\n    {\n      \"email\": \"to@example.com\",\n      \"merge_vars\": [\n        { \"name\": \"FIRST_NAME\", \"value\": \"John\" }\n      ]\n    }\n  ],\n  \"cc\": [\"cc@example.com\"],\n  \"bcc\": [\"bcc@example.com\"],\n  \"attachments\": [],\n  \"vars\": {\n    \"user_id\": \"12345\",\n    \"invoice_id\": \"abcde\"\n  }\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{api_url}}emails/"
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 05 Sep 2025 13:51:01 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "97"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=UTF-8"
+								}
+							],
+							"cookie": [],
+							"body": "{\"success\":0,\"error_code\":106,\"message\":\"Invalid template_uid provided or template not approved\"}"
+						}
+					]
+				}
+			],
+			"description": "Send and track transactional emails using templates, variables, and tags."
+		},
+		{
+			"name": "Template",
+			"item": [
+				{
+					"name": "Create a template",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "template_uid",
+									"value": "otp_email_test",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "OTP Email",
+									"type": "text"
+								},
+								{
+									"key": "html_body",
+									"value": "<h1>Hello, Welcome! This is your OTP</h1>",
+									"type": "text"
+								},
+								{
+									"key": "text_body",
+									"value": "Hello, Welcome!",
+									"type": "text"
+								},
+								{
+									"key": "variables",
+									"value": "[\"name\", \"otp\"]",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{api_url}}templates/"
+					},
+					"response": [
+						{
+							"name": "201 Created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "template_uid",
+											"value": "otp_email_test",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "OTP Email",
+											"type": "text"
+										},
+										{
+											"key": "html_body",
+											"value": "<h1>Hello, Welcome! This is your OTP</h1>",
+											"type": "text"
+										},
+										{
+											"key": "text_body",
+											"value": "Hello, Welcome!",
+											"type": "text"
+										},
+										{
+											"key": "variables",
+											"value": "[\"name\", \"otp\"]",
+											"type": "text"
+										}
+									]
+								},
+								"url": "{{api_url}}templates/"
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 05 Sep 2025 14:23:58 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "97"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 1,\n    \"message\": \"Template created successfully\",\n    \"data\": [],\n    \"template_uid\": \"otp_email_test\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Copy a template",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{api_url}}templates/:template_id/copy",
+							"host": [
+								"{{api_url}}templates"
+							],
+							"path": [
+								":template_id",
+								"copy"
+							],
+							"variable": [
+								{
+									"key": "template_id",
+									"value": "{{template_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "{{api_url}}templates/:template_id/copy",
+									"host": [
+										"{{api_url}}templates"
+									],
+									"path": [
+										":template_id",
+										"copy"
+									],
+									"variable": [
+										{
+											"key": "template_id",
+											"value": "{{template_id}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 12:26:55 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "125"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 1,\n    \"message\": \"Template copied successfully!\",\n    \"data\": {\n        \"new_template_uid\": \"otp_email_test_copy_57ad\"\n    },\n    \"error_code\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "List templates",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}templates?status=approved&search=welcome",
+							"host": [
+								"{{api_url}}templates"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "approved"
+								},
+								{
+									"key": "search",
+									"value": "welcome"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{api_url}}templates?status=approved&search=welcome",
+									"host": [
+										"{{api_url}}templates"
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": "approved"
+										},
+										{
+											"key": "search",
+											"value": "welcome"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 12:08:31 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "534"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 1,\n    \"message\": \"Templates fetched successfully\",\n    \"data\": [\n        {\n            \"id\": 63,\n            \"template_uid\": \"welcome_email_test0215\",\n            \"name\": \"Welcome Email New\",\n            \"layout_id\": 1,\n            \"status\": \"approved\",\n            \"moderated_by\": \"Sachin\",\n            \"moderated_at\": \"2025-07-29 00:00:00\",\n            \"created_at\": \"2025-07-29 12:54:15\",\n            \"updated_at\": null\n        },\n        {\n            \"id\": 54,\n            \"template_uid\": \"welcome_email_test\",\n            \"name\": \"Welcome Email\",\n            \"layout_id\": 1,\n            \"status\": \"approved\",\n            \"moderated_by\": \"Sachin\",\n            \"moderated_at\": \"2025-07-28 00:00:00\",\n            \"created_at\": \"2025-07-28 12:30:51\",\n            \"updated_at\": \"2025-07-28 12:31:07\"\n        }\n    ],\n    \"total\": 2\n}"
+						}
+					]
+				},
+				{
+					"name": "Get a template",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}templates/:template_uid",
+							"host": [
+								"{{api_url}}templates"
+							],
+							"path": [
+								":template_uid"
+							],
+							"variable": [
+								{
+									"key": "template_uid",
+									"value": "{{template_uid}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{api_url}}templates/:template_uid",
+									"host": [
+										"{{api_url}}templates"
+									],
+									"path": [
+										":template_uid"
+									],
+									"variable": [
+										{
+											"key": "template_uid",
+											"value": "{{template_uid}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 12:09:15 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "5743"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 1,\n    \"message\": \"Template fetched successfully\",\n    \"data\": {\n        \"id\": 63,\n        \"instance_id\": 8773,\n        \"instance_name\": \"mimepost_trans\",\n        \"layout_id\": 1,\n        \"template_uid\": \"welcome_email_test0215\",\n        \"name\": \"Welcome Email New\",\n        \"html_body\": \"<table cellpadding=\\\"0\\\" cellspacing=\\\"0\\\" role=\\\"presentation\\\" style=\\\"background-color:#f5f5f5;padding:20px 0;\\\" width=\\\"100%\\\">\\n\\t<tbody>\\n\\t\\t<tr>\\n\\t\\t\\t<td align=\\\"center\\\">\\n\\t\\t\\t\\t<table role=\\\"presentation\\\" style=\\\"max-width:600px;background-color:#ffffff;border:1px solid #eaeaea;border-collapse:collapse;font-family:Arial,sans-serif;\\\" width=\\\"100%\\\">\\n\\t\\t\\t\\t\\t<tbody>\\n\\t\\t\\t\\t\\t\\t<tr>\\n\\t\\t\\t\\t\\t\\t\\t<td style=\\\"padding:20px;text-align:center;\\\">\\n\\t\\t\\t\\t\\t\\t\\t\\t<img alt=\\\"[COMPANY_NAME] Logo\\\" src=\\\"[LOGO]\\\" style=\\\"max-width:150px;height:auto;margin-bottom:20px;\\\" /></td>\\n\\t\\t\\t\\t\\t\\t</tr>\\n\\t\\t\\t\\t\\t\\t<tr>\\n\\t\\t\\t\\t\\t\\t\\t<td style=\\\"padding:0 20px;\\\">\\n\\t\\t\\t\\t\\t\\t\\t\\t<h1 style=\\\"font-size:22px;color:#333333;margin:0 0 10px;\\\">\\n\\t\\t\\t\\t\\t\\t\\t\\t\\tWelcome, [FIRST_NAME]!</h1>\\n\\t\\t\\t\\t\\t\\t\\t\\t<p style=\\\"margin:0 0 15px;color:#333333;font-size:16px;line-height:1.5;\\\">\\n\\t\\t\\t\\t\\t\\t\\t\\t\\tThank you for choosing [COMPANY_NAME]! We&#39;re excited to have you join our growing community. Your account is set up and ready to go, giving you access to all the tools and insights you need to achieve your goals.</p>\\n\\t\\t\\t\\t\\t\\t\\t\\t<p style=\\\"margin:0 0 15px;color:#333333;font-size:16px;line-height:1.5;\\\">\\n\\t\\t\\t\\t\\t\\t\\t\\t\\tTo get started, click the button below to open your dashboard and explore what [COMPANY_NAME] has to offer. You&#39;ll find intuitive features, helpful resources, and a place to track your progress.</p>\\n\\t\\t\\t\\t\\t\\t\\t\\t<p style=\\\"margin:20px 0;text-align:center;\\\">\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t<a href=\\\"[LINK]\\\" style=\\\"display:inline-block;padding:12px 24px;background-color:#28a745;color:#ffffff;text-decoration:none;border-radius:4px;font-size:16px;\\\">Access Your Dashboard</a></p>\\n\\t\\t\\t\\t\\t\\t\\t\\t<h2 style=\\\"font-size:18px;color:#333333;margin:20px 0 10px;\\\">\\n\\t\\t\\t\\t\\t\\t\\t\\t\\tYour account details</h2>\\n\\t\\t\\t\\t\\t\\t\\t\\t<table cellpadding=\\\"0\\\" cellspacing=\\\"0\\\" role=\\\"presentation\\\" style=\\\"border-collapse:collapse;margin-bottom:20px;\\\" width=\\\"100%\\\">\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t<tbody>\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<tr>\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<td style=\\\"padding:5px 0;font-weight:bold;color:#333333;width:150px;\\\">\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\tUsername:</td>\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<td style=\\\"padding:5px 0;color:#333333;\\\">\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t[USERNAME]</td>\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t</tr>\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<tr>\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<td style=\\\"padding:5px 0;font-weight:bold;color:#333333;width:150px;\\\">\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\tTrial Start:</td>\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<td style=\\\"padding:5px 0;color:#333333;\\\">\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t[START_DATE]</td>\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t</tr>\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<tr>\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<td style=\\\"padding:5px 0;font-weight:bold;color:#333333;width:150px;\\\">\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\tTrial End:</td>\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t<td style=\\\"padding:5px 0;color:#333333;\\\">\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t[END_DATE]</td>\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t\\t</tr>\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t</tbody>\\n\\t\\t\\t\\t\\t\\t\\t\\t</table>\\n\\t\\t\\t\\t\\t\\t\\t\\t<p style=\\\"margin:0 0 15px;color:#333333;font-size:16px;line-height:1.5;\\\">\\n\\t\\t\\t\\t\\t\\t\\t\\t\\tOver the coming days, we&#39;ll send you quick tips and stories from other members to help you make the most of [COMPANY_NAME]. You can expect occasional updates about new features and best practices, so stay tuned!</p>\\n\\t\\t\\t\\t\\t\\t\\t\\t<p style=\\\"margin:0 0 15px;color:#333333;font-size:16px;line-height:1.5;\\\">\\n\\t\\t\\t\\t\\t\\t\\t\\t\\tNeed immediate help getting started? Check out our help <a href=\\\"[DOCUMENTATION_URL]\\\" style=\\\"color:#007BFF;text-decoration:none;\\\">documentation</a>. Or, just reply to this email &acirc;&euro;&rdquo; the [PRODUCT_NAME] support team is always ready to help!</p>\\n\\t\\t\\t\\t\\t\\t\\t\\t<p style=\\\"margin:0 0 15px;color:#333333;font-size:16px;line-height:1.5;\\\">\\n\\t\\t\\t\\t\\t\\t\\t\\t\\tWarm regards,<br />\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t[SENDER_NAME] and the [COMPANY_NAME] Team</p>\\n\\t\\t\\t\\t\\t\\t\\t\\t<p style=\\\"margin:20px 0;color:#888888;font-size:14px;line-height:1.5;\\\">\\n\\t\\t\\t\\t\\t\\t\\t\\t\\tIf the button above doesn&#39;t work, copy and paste this link into your browser:<br />\\n\\t\\t\\t\\t\\t\\t\\t\\t\\t[LINK]</p>\\n\\t\\t\\t\\t\\t\\t\\t</td>\\n\\t\\t\\t\\t\\t\\t</tr>\\n\\t\\t\\t\\t\\t</tbody>\\n\\t\\t\\t\\t</table>\\n\\t\\t\\t</td>\\n\\t\\t</tr>\\n\\t</tbody>\\n</table>\\n\",\n        \"text_body\": \"<p>\\n\\tWelcome, [FIRST_NAME]! Thank you for choosing [COMPANY_NAME]! We&#39;re excited to have you join our growing community. Your account is set up and ready to go, giving you access to all the tools and insights you need to achieve your goals. To get started, visit your dashboard and explore what [COMPANY_NAME] has to offer: [LINK] Your account details Username: [USERNAME] Trial Start: [START_DATE] Trial End: [END_DATE] Over the coming days, we&#39;ll send you quick tips and stories from other members to help you make the most of [COMPANY_NAME]. You can expect occasional updates about new features and best practices, so stay tuned! Need immediate help getting started? Check out our help documentation: [DOCUMENTATION_URL]. Or, just reply to this email &acirc;&euro;&rdquo; the [PRODUCT_NAME] support team is always ready to help! Warm regards, [SENDER_NAME] and the [COMPANY_NAME] Team If the button above doesn&#39;t work, copy and paste this link into your browser: [LINK]</p>\\n\",\n        \"variables\": \"<p>\\n\\t[&quot;name&quot;, &quot;otp&quot;]</p>\\n\",\n        \"status\": \"approved\",\n        \"rejection_reason\": null,\n        \"moderated_by\": \"Sachin\",\n        \"moderated_at\": \"2025-07-29 00:00:00\",\n        \"created_at\": \"2025-07-29 12:54:15\",\n        \"updated_at\": null\n    },\n    \"error_code\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Edit a template",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "template_uid",
+									"value": "otp_a_email_update22s",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "Welcome Update",
+									"type": "text"
+								},
+								{
+									"key": "html_body",
+									"value": "<h1>Hello, Welcome! This is your OTP</h1>",
+									"type": "text"
+								},
+								{
+									"key": "text_body",
+									"value": "Hello, Welcome!",
+									"type": "text"
+								},
+								{
+									"key": "variables",
+									"value": "[\"name\", \"otp\"]",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{api_url}}templates/:template_id",
+							"host": [
+								"{{api_url}}templates"
+							],
+							"path": [
+								":template_id"
+							],
+							"variable": [
+								{
+									"key": "template_id",
+									"value": "{{template_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "template_uid",
+											"value": "otp_a_email_update22s",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "Welcome Update",
+											"type": "text"
+										},
+										{
+											"key": "html_body",
+											"value": "<h1>Hello, Welcome! This is your OTP</h1>",
+											"type": "text"
+										},
+										{
+											"key": "text_body",
+											"value": "Hello, Welcome!",
+											"type": "text"
+										},
+										{
+											"key": "variables",
+											"value": "[\"name\", \"otp\"]",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{api_url}}templates/:template_id",
+									"host": [
+										"{{api_url}}templates"
+									],
+									"path": [
+										":template_id"
+									],
+									"variable": [
+										{
+											"key": "template_id",
+											"value": "{{template_id}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 13:39:58 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "65"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 1,\n    \"message\": \"Template updated successfully\",\n    \"data\": []\n}"
+						},
+						{
+							"name": "500 Internal Server Error",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "template_uid",
+											"value": "otp_a_email_update",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "name",
+											"value": "Welcome Update",
+											"type": "text"
+										},
+										{
+											"key": "html_body",
+											"value": "<h1>Hello, Welcome! This is your OTP...</h1>",
+											"type": "text"
+										},
+										{
+											"key": "text_body",
+											"value": "Hello, Welcome2!",
+											"type": "text"
+										},
+										{
+											"key": "variables",
+											"value": "[\"name\", \"otp\"]",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{api_url}}templates/:template_uid",
+									"host": [
+										"{{api_url}}templates"
+									],
+									"path": [
+										":template_uid"
+									],
+									"variable": [
+										{
+											"key": "template_uid",
+											"value": "{{template_uid}}"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 12:12:21 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "78"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 0,\n    \"message\": \"Exception occurred while updating template\",\n    \"data\": []\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete a template",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}templates/:template_uid",
+							"host": [
+								"{{api_url}}templates"
+							],
+							"path": [
+								":template_uid"
+							],
+							"variable": [
+								{
+									"key": "template_uid",
+									"value": "{{template_uid}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{api_url}}templates/:template_id",
+									"host": [
+										"{{api_url}}templates"
+									],
+									"path": [
+										":template_id"
+									],
+									"variable": [
+										{
+											"key": "template_id",
+											"value": "{{template_id}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 12:29:15 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "80"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 1,\n    \"message\": \"Template deleted successfully\",\n    \"data\": [],\n    \"error_code\": 0\n}"
+						}
+					]
+				}
+			],
+			"description": "Create, edit, copy, list, and delete reusable email templates."
+		},
+		{
+			"name": "Warmup",
+			"item": [
+				{
+					"name": "Warm-Up plan",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}"
+							}
+						],
+						"url": "https://api.mimepost.com/v1/warmup_master/"
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}"
+									}
+								],
+								"url": "https://api.mimepost.com/v1/warmup_master/"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 12:31:56 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "486"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 1,\n    \"message\": \"warmup master extracted successfully.\",\n    \"data\": [\n        {\n            \"id\": 1110,\n            \"warmup_name\": \"starclinch_warmup\",\n            \"warmup_plan_id\": 32,\n            \"obj_name\": \"starclinch\",\n            \"obj_type\": \"INSTANCE\",\n            \"dm_instance_id\": 0,\n            \"target_domains\": \"\",\n            \"mixed_target_domains\": 1,\n            \"target_max_speed\": 1000,\n            \"target_min_delivered_rate\": 80,\n            \"target_min_bounced_rate\": 10,\n            \"target_min_deferred_rate\": 99,\n            \"target_min_queued_rate\": 99,\n            \"status\": \"NEW\",\n            \"remarks\": null,\n            \"active\": 1,\n            \"plan_name\": \"WARMUP_FREE_PLAN_NEW\",\n            \"warmup_plan_day\": 3\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Warm-Up schedule (Day-by-Day)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}"
+							}
+						],
+						"url": {
+							"raw": "https://api.mimepost.com/v1/warmup_plans/:warmup_plan_id",
+							"protocol": "https",
+							"host": [
+								"api",
+								"mimepost",
+								"com"
+							],
+							"path": [
+								"v1",
+								"warmup_plans",
+								":warmup_plan_id"
+							],
+							"variable": [
+								{
+									"key": "warmup_plan_id",
+									"value": "{{warmup_plan_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}"
+									}
+								],
+								"url": {
+									"raw": "https://api.mimepost.com/v1/warmup_plans/:warmup_plan_id",
+									"protocol": "https",
+									"host": [
+										"api",
+										"mimepost",
+										"com"
+									],
+									"path": [
+										"v1",
+										"warmup_plans",
+										":warmup_plan_id"
+									],
+									"variable": [
+										{
+											"key": "warmup_plan_id",
+											"value": "{{warmup_plan_id}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 12:34:45 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1912"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 1,\n    \"message\": \"warmup plans details extracted successfully.\",\n    \"data\": [\n        {\n            \"warmup_plan_id\": 32,\n            \"id\": 485,\n            \"day\": 1,\n            \"speed_per_hour\": 10\n        },\n        {\n            \"warmup_plan_id\": 32,\n            \"id\": 486,\n            \"day\": 2,\n            \"speed_per_hour\": 21\n        },\n        {\n            \"warmup_plan_id\": 32,\n            \"id\": 487,\n            \"day\": 3,\n            \"speed_per_hour\": 42\n        },\n        {\n            \"warmup_plan_id\": 32,\n            \"id\": 488,\n            \"day\": 4,\n            \"speed_per_hour\": 63\n        },\n        {\n            \"warmup_plan_id\": 32,\n            \"id\": 489,\n            \"day\": 5,\n            \"speed_per_hour\": 104\n        },\n        {\n            \"warmup_plan_id\": 32,\n            \"id\": 490,\n            \"day\": 6,\n            \"speed_per_hour\": 146\n        },\n        {\n            \"warmup_plan_id\": 32,\n            \"id\": 491,\n            \"day\": 7,\n            \"speed_per_hour\": 188\n        },\n        {\n            \"warmup_plan_id\": 32,\n            \"id\": 492,\n            \"day\": 8,\n            \"speed_per_hour\": 250\n        },\n        {\n            \"warmup_plan_id\": 32,\n            \"id\": 493,\n            \"day\": 9,\n            \"speed_per_hour\": 313\n        },\n        {\n            \"warmup_plan_id\": 32,\n            \"id\": 494,\n            \"day\": 10,\n            \"speed_per_hour\": 396\n        },\n        {\n            \"warmup_plan_id\": 32,\n            \"id\": 495,\n            \"day\": 11,\n            \"speed_per_hour\": 479\n        },\n        {\n            \"warmup_plan_id\": 32,\n            \"id\": 496,\n            \"day\": 12,\n            \"speed_per_hour\": 604\n        },\n        {\n            \"warmup_plan_id\": 32,\n            \"id\": 497,\n            \"day\": 13,\n            \"speed_per_hour\": 729\n        },\n        {\n            \"warmup_plan_id\": 32,\n            \"id\": 498,\n            \"day\": 14,\n            \"speed_per_hour\": 854\n        },\n        {\n            \"warmup_plan_id\": 32,\n            \"id\": 499,\n            \"day\": 15,\n            \"speed_per_hour\": 1063\n        },\n        {\n            \"warmup_plan_id\": 32,\n            \"id\": 500,\n            \"day\": 16,\n            \"speed_per_hour\": 1271\n        },\n        {\n            \"warmup_plan_id\": 32,\n            \"id\": 501,\n            \"day\": 17,\n            \"speed_per_hour\": 1479\n        },\n        {\n            \"warmup_plan_id\": 32,\n            \"id\": 502,\n            \"day\": 18,\n            \"speed_per_hour\": 1688\n        },\n        {\n            \"warmup_plan_id\": 32,\n            \"id\": 503,\n            \"day\": 19,\n            \"speed_per_hour\": 1896\n        },\n        {\n            \"warmup_plan_id\": 32,\n            \"id\": 504,\n            \"day\": 20,\n            \"speed_per_hour\": 2104\n        },\n        {\n            \"warmup_plan_id\": 32,\n            \"id\": 505,\n            \"day\": 21,\n            \"speed_per_hour\": 2313\n        },\n        {\n            \"warmup_plan_id\": 32,\n            \"id\": 506,\n            \"day\": 22,\n            \"speed_per_hour\": 2625\n        },\n        {\n            \"warmup_plan_id\": 32,\n            \"id\": 507,\n            \"day\": 23,\n            \"speed_per_hour\": 2938\n        },\n        {\n            \"warmup_plan_id\": 32,\n            \"id\": 508,\n            \"day\": 24,\n            \"speed_per_hour\": 3250\n        },\n        {\n            \"warmup_plan_id\": 32,\n            \"id\": 509,\n            \"day\": 25,\n            \"speed_per_hour\": 3563\n        },\n        {\n            \"warmup_plan_id\": 32,\n            \"id\": 510,\n            \"day\": 26,\n            \"speed_per_hour\": 3875\n        },\n        {\n            \"warmup_plan_id\": 32,\n            \"id\": 511,\n            \"day\": 27,\n            \"speed_per_hour\": 4188\n        },\n        {\n            \"warmup_plan_id\": 32,\n            \"id\": 512,\n            \"day\": 28,\n            \"speed_per_hour\": 4500\n        },\n        {\n            \"warmup_plan_id\": 32,\n            \"id\": 513,\n            \"day\": 29,\n            \"speed_per_hour\": 4813\n        },\n        {\n            \"warmup_plan_id\": 32,\n            \"id\": 514,\n            \"day\": 30,\n            \"speed_per_hour\": 5000\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Warm-Up progress details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}"
+							}
+						],
+						"url": "https://api.mimepost.com/v1/warmup_details/24"
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}"
+									}
+								],
+								"url": "https://api.mimepost.com/v1/warmup_details/24"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 11:51:32 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 1,\n    \"message\": \"warmup details extracted successfully.\",\n    \"data\": [\n        {\n            \"id\": 771452,\n            \"warmup_id\": 24,\n            \"warmup_plan_day\": 13,\n            \"entered\": \"2025-07-23 18:48:14\",\n            \"speed_per_hour\": 1000,\n            \"delivered_rate\": 0,\n            \"bounced_rate\": 0,\n            \"deferred_rate\": 0,\n            \"queued_rate\": 0,\n            \"remarks\": \"Not increasing the daily limit reasons:<br />\\n Minimum numbers of total sent emails in a day not met. Actual(0) and Target(10000).,<br />\\nDelivered percent minimum target not met. Actual(0) Target(1))\"\n        },\n        {\n            \"id\": 770726,\n            \"warmup_id\": 24,\n            \"warmup_plan_day\": 13,\n            \"entered\": \"2025-07-23 17:59:01\",\n            \"speed_per_hour\": 1000,\n            \"delivered_rate\": 0,\n            \"bounced_rate\": 0,\n            \"deferred_rate\": 0,\n            \"queued_rate\": null,\n            \"remarks\": \"Not increasing the daily limit reasons:<br />\\n Minimum numbers of total sent emails in a day not met. Actual(0) and Target(10000).,<br />\\nDelivered percent minimum target not met. Actual(0) Target(1))\"\n        },\n        {\n            \"id\": 769997,\n            \"warmup_id\": 24,\n            \"warmup_plan_day\": 13,\n            \"entered\": \"2025-07-23 17:16:50\",\n            \"speed_per_hour\": 1000,\n            \"delivered_rate\": 0,\n            \"bounced_rate\": 0,\n            \"deferred_rate\": 0,\n            \"queued_rate\": null,\n            \"remarks\": \"Not increasing the daily limit reasons:<br />\\n Minimum numbers of total sent emails in a day not met. Actual(0) and Target(10000).,<br />\\nDelivered percent minimum target not met. Actual(0) Target(1))\"\n        },\n        {\n            \"id\": 769264,\n            \"warmup_id\": 24,\n            \"warmup_plan_day\": 13,\n            \"entered\": \"2025-07-23 16:22:08\",\n            \"speed_per_hour\": 1000,\n            \"delivered_rate\": 0,\n            \"bounced_rate\": 0,\n            \"deferred_rate\": 0,\n            \"queued_rate\": null,\n            \"remarks\": \"Not increasing the daily limit reasons:<br />\\n Minimum numbers of total sent emails in a day not met. Actual(0) and Target(10000).,<br />\\nDelivered percent minimum target not met. Actual(0) Target(1))\"\n        },\n        {\n            \"id\": 768875,\n            \"warmup_id\": 24,\n            \"warmup_plan_day\": 13,\n            \"entered\": \"2025-07-23 10:54:40\",\n            \"speed_per_hour\": 1000,\n            \"delivered_rate\": 0,\n            \"bounced_rate\": 0,\n            \"deferred_rate\": 0,\n            \"queued_rate\": null,\n            \"remarks\": \"Not increasing the daily limit reasons:<br />\\n Minimum numbers of total sent emails in a day not met. Actual(0) and Target(10000).,<br />\\nDelivered percent minimum target not met. Actual(0) Target(1))\"\n        },\n        {\n            \"id\": 768149,\n            \"warmup_id\": 24,\n            \"warmup_plan_day\": 13,\n            \"entered\": \"2025-07-22 10:50:51\",\n            \"speed_per_hour\": 1000,\n            \"delivered_rate\": 0,\n            \"bounced_rate\": 0,\n            \"deferred_rate\": 0,\n            \"queued_rate\": null,\n            \"remarks\": \"Not increasing the daily limit reasons:<br />\\n Minimum numbers of total sent emails in a day not met. Actual(0) and Target(10000).,<br />\\nDelivered percent minimum target not met. Actual(0) Target(1))\"\n        },\n        {\n            \"id\": 767424,\n            \"warmup_id\": 24,\n            \"warmup_plan_day\": 13,\n            \"entered\": \"2025-07-21 10:48:08\",\n            \"speed_per_hour\": 1000,\n            \"delivered_rate\": 0,\n            \"bounced_rate\": 0,\n            \"deferred_rate\": 0,\n            \"queued_rate\": null,\n            \"remarks\": \"Not increasing the daily limit reasons:<br />\\n Minimum numbers of total sent emails in a day not met. Actual(0) and Target(10000).,<br />\\nDelivered percent minimum target not met. Actual(0) Target(1))\"\n        },\n        {\n            \"id\": 766700,\n            \"warmup_id\": 24,\n            \"warmup_plan_day\": 13,\n            \"entered\": \"2025-07-20 10:46:14\",\n            \"speed_per_hour\": 1000,\n            \"delivered_rate\": 0,\n            \"bounced_rate\": 0,\n            \"deferred_rate\": 0,\n            \"queued_rate\": null,\n            \"remarks\": \"Not increasing the daily limit reasons:<br />\\n Minimum numbers of total sent emails in a day not met. Actual(0) and Target(10000).,<br />\\nDelivered percent minimum target not met. Actual(0) Target(1))\"\n        },\n        {\n            \"id\": 765978,\n            \"warmup_id\": 24,\n            \"warmup_plan_day\": 13,\n            \"entered\": \"2025-07-19 10:43:19\",\n            \"speed_per_hour\": 1000,\n            \"delivered_rate\": 0,\n            \"bounced_rate\": 0,\n            \"deferred_rate\": 0,\n            \"queued_rate\": null,\n            \"remarks\": \"Not increasing the daily limit reasons:<br />\\n Minimum numbers of total sent emails in a day not met. Actual(0) and Target(10000).,<br />\\nDelivered percent minimum target not met. Actual(0) Target(1))\"\n        },\n        {\n            \"id\": 765256,\n            \"warmup_id\": 24,\n            \"warmup_plan_day\": 13,\n            \"entered\": \"2025-07-18 10:41:57\",\n            \"speed_per_hour\": 1000,\n            \"delivered_rate\": 0,\n            \"bounced_rate\": 0,\n            \"deferred_rate\": 0,\n            \"queued_rate\": null,\n            \"remarks\": \"Not increasing the daily limit reasons:<br />\\n Minimum numbers of total sent emails in a day not met. Actual(0) and Target(10000).,<br />\\nDelivered percent minimum target not met. Actual(0) Target(1))\"\n        },\n        {\n            \"id\": 764534,\n            \"warmup_id\": 24,\n            \"warmup_plan_day\": 13,\n            \"entered\": \"2025-07-17 10:41:13\",\n            \"speed_per_hour\": 1000,\n            \"delivered_rate\": 0,\n            \"bounced_rate\": 0,\n            \"deferred_rate\": 0,\n            \"queued_rate\": null,\n            \"remarks\": \"Not increasing the daily limit reasons:<br />\\n Minimum numbers of total sent emails in a day not met. Actual(0) and Target(10000).,<br />\\nDelivered percent minimum target not met. Actual(0) Target(1))\"\n        },\n        {\n            \"id\": 763812,\n            \"warmup_id\": 24,\n            \"warmup_plan_day\": 13,\n            \"entered\": \"2025-07-16 10:37:30\",\n            \"speed_per_hour\": 1000,\n            \"delivered_rate\": 0,\n            \"bounced_rate\": 0,\n            \"deferred_rate\": 0,\n            \"queued_rate\": null,\n            \"remarks\": \"Not increasing the daily limit reasons:<br />\\n Minimum numbers of total sent emails in a day not met. Actual(0) and Target(10000).,<br />\\nDelivered percent minimum target not met. Actual(0) Target(1))\"\n        },\n        {\n            \"id\": 763090,\n            \"warmup_id\": 24,\n            \"warmup_plan_day\": 13,\n            \"entered\": \"2025-07-15 10:37:12\",\n            \"speed_per_hour\": 1000,\n            \"delivered_rate\": 0,\n            \"bounced_rate\": 0,\n            \"deferred_rate\": 0,\n            \"queued_rate\": null,\n            \"remarks\": \"Not increasing the daily limit reasons:<br />\\n Minimum numbers of total sent emails in a day not met. Actual(0) and Target(10000).,<br />\\nDelivered percent minimum target not met. Actual(0) Target(1))\"\n        },\n        {\n            \"id\": 762368,\n            \"warmup_id\": 24,\n            \"warmup_plan_day\": 13,\n            \"entered\": \"2025-07-14 10:33:22\",\n            \"speed_per_hour\": 1000,\n            \"delivered_rate\": 0,\n            \"bounced_rate\": 0,\n            \"deferred_rate\": 0,\n            \"queued_rate\": null,\n            \"remarks\": \"Not increasing the daily limit reasons:<br />\\n Minimum numbers of total sent emails in a day not met. Actual(0) and Target(10000).,<br />\\nDelivered percent minimum target not met. Actual(0) Target(1))\"\n        },\n        {\n            \"id\": 761646,\n            \"warmup_id\": 24,\n            \"warmup_plan_day\": 13,\n            \"entered\": \"2025-07-13 10:30:55\",\n            \"speed_per_hour\": 1000,\n            \"delivered_rate\": 0,\n            \"bounced_rate\": 0,\n            \"deferred_rate\": 0,\n            \"queued_rate\": null,\n            \"remarks\": \"Not increasing the daily limit reasons:<br />\\n Minimum numbers of total sent emails in a day not met. Actual(0) and Target(10000).,<br />\\nDelivered percent minimum target not met. Actual(0) Target(1))\"\n        },\n        {\n            \"id\": 760924,\n            \"warmup_id\": 24,\n            \"warmup_plan_day\": 13,\n            \"entered\": \"2025-07-12 10:28:18\",\n            \"speed_per_hour\": 1000,\n            \"delivered_rate\": 0,\n            \"bounced_rate\": 0,\n            \"deferred_rate\": 0,\n            \"queued_rate\": null,\n            \"remarks\": \"Not increasing the daily limit reasons:<br />\\n Minimum numbers of total sent emails in a day not met. Actual(0) and Target(10000).,<br />\\nDelivered percent minimum target not met. Actual(0) Target(1))\"\n        },\n        {\n            \"id\": 760202,\n            \"warmup_id\": 24,\n            \"warmup_plan_day\": 13,\n            \"entered\": \"2025-07-11 10:25:55\",\n            \"speed_per_hour\": 1000,\n            \"delivered_rate\": 0,\n            \"bounced_rate\": 0,\n            \"deferred_rate\": 0,\n            \"queued_rate\": null,\n            \"remarks\": \"Not increasing the daily limit reasons:<br />\\n Minimum numbers of total sent emails in a day not met. Actual(0) and Target(10000).,<br />\\nDelivered percent minimum target not met. Actual(0) Target(1))\"\n        },\n        {\n            \"id\": 759480,\n            \"warmup_id\": 24,\n            \"warmup_plan_day\": 13,\n            \"entered\": \"2025-07-10 10:22:02\",\n            \"speed_per_hour\": 1000,\n            \"delivered_rate\": 0,\n            \"bounced_rate\": 0,\n            \"deferred_rate\": 0,\n            \"queued_rate\": null,\n            \"remarks\": \"Not increasing the daily limit reasons:<br />\\n Minimum numbers of total sent emails in a day not met. Actual(0) and Target(10000).,<br />\\nDelivered percent minimum target not met. Actual(0) Target(1))\"\n        },\n        {\n            \"id\": 758758,\n            \"warmup_id\": 24,\n            \"warmup_plan_day\": 13,\n            \"entered\": \"2025-07-09 10:17:42\",\n            \"speed_per_hour\": 1000,\n            \"delivered_rate\": 0,\n            \"bounced_rate\": 0,\n            \"deferred_rate\": 0,\n            \"queued_rate\": null,\n            \"remarks\": \"Not increasing the daily limit reasons:<br />\\n Minimum numbers of total sent emails in a day not met. Actual(0) and Target(10000).,<br />\\nDelivered percent minimum target not met. Actual(0) Target(1))\"\n        },\n        {\n            \"id\": 758036,\n            \"warmup_id\": 24,\n            \"warmup_plan_day\": 13,\n            \"entered\": \"2025-07-08 10:14:41\",\n            \"speed_per_hour\": 1000,\n            \"delivered_rate\": 0,\n            \"bounced_rate\": 0,\n            \"deferred_rate\": 0,\n            \"queued_rate\": null,\n            \"remarks\": \"Not increasing the daily limit reasons:<br />\\n Minimum numbers of total sent emails in a day not met. Actual(0) and Target(10000).,<br />\\nDelivered percent minimum target not met. Actual(0) Target(1))\"\n        },\n        {\n            \"id\": 757315,\n            \"warmup_id\": 24,\n            \"warmup_plan_day\": 13,\n            \"entered\": \"2025-07-07 10:10:36\",\n            \"speed_per_hour\": 1000,\n            \"delivered_rate\": 0,\n            \"bounced_rate\": 0,\n            \"deferred_rate\": 0,\n            \"queued_rate\": null,\n            \"remarks\": \"Not increasing the daily limit reasons:<br />\\n Minimum numbers of total sent emails in a day not met. Actual(0) and Target(10000).,<br />\\nDelivered percent minimum target not met. Actual(0) Target(1))\"\n        },\n        {\n            \"id\": 756595,\n            \"warmup_id\": 24,\n            \"warmup_plan_day\": 13,\n            \"entered\": \"2025-07-06 10:07:28\",\n            \"speed_per_hour\": 1000,\n            \"delivered_rate\": 0,\n            \"bounced_rate\": 0,\n            \"deferred_rate\": 0,\n            \"queued_rate\": null,\n            \"remarks\": \"Not increasing the daily limit reasons:<br />\\n Minimum numbers of total sent emails in a day not met. Actual(0) and Target(10000).,<br />\\nDelivered percent minimum target not met. Actual(0) Target(1))\"\n        },\n        {\n            \"id\": 755875,\n            \"warmup_id\": 24,\n            \"warmup_plan_day\": 13,\n            \"entered\": \"2025-07-05 10:04:20\",\n            \"speed_per_hour\": 1000,\n            \"delivered_rate\": 0,\n            \"bounced_rate\": 0,\n            \"deferred_rate\": 0,\n            \"queued_rate\": null,\n            \"remarks\": \"Not increasing the daily limit reasons:<br />\\n Minimum numbers of total sent emails in a day not met. Actual(0) and Target(10000).,<br />\\nDelivered percent minimum target not met. Actual(0) Target(1))\"\n        },\n        {\n            \"id\": 755154,\n            \"warmup_id\": 24,\n            \"warmup_plan_day\": 13,\n            \"entered\": \"2025-07-04 10:01:13\",\n            \"speed_per_hour\": 1000,\n            \"delivered_rate\": 0,\n            \"bounced_rate\": 0,\n            \"deferred_rate\": 0,\n            \"queued_rate\": null,\n            \"remarks\": \"Not increasing the daily limit reasons:<br />\\n Minimum numbers of total sent emails in a day not met. Actual(0) and Target(10000).,<br />\\nDelivered percent minimum target not met. Actual(0) Target(1))\"\n        },\n        {\n            \"id\": 754436,\n            \"warmup_id\": 24,\n            \"warmup_plan_day\": 13,\n            \"entered\": \"2025-07-03 09:57:18\",\n            \"speed_per_hour\": 1000,\n            \"delivered_rate\": 0,\n            \"bounced_rate\": 0,\n            \"deferred_rate\": 0,\n            \"queued_rate\": null,\n            \"remarks\": \"Not increasing the daily limit reasons:<br />\\n Minimum numbers of total sent emails in a day not met. Actual(0) and Target(10000).,<br />\\nDelivered percent minimum target not met. Actual(0) Target(1))\"\n        },\n        {\n            \"id\": 753674,\n            \"warmup_id\": 24,\n            \"warmup_plan_day\": 13,\n            \"entered\": \"2025-07-02 02:56:57\",\n            \"speed_per_hour\": 1000,\n            \"delivered_rate\": 0,\n            \"bounced_rate\": 0,\n            \"deferred_rate\": 0,\n            \"queued_rate\": null,\n            \"remarks\": \"Not increasing the daily limit reasons:<br />\\n Minimum numbers of total sent emails in a day not met. Actual(0) and Target(10000).,<br />\\nDelivered percent minimum target not met. Actual(0) Target(1))\"\n        },\n        {\n            \"id\": 752957,\n            \"warmup_id\": 24,\n            \"warmup_plan_day\": 13,\n            \"entered\": \"2025-07-01 02:53:52\",\n            \"speed_per_hour\": 1000,\n            \"delivered_rate\": 0,\n            \"bounced_rate\": 0,\n            \"deferred_rate\": 0,\n            \"queued_rate\": null,\n            \"remarks\": \"Not increasing the daily limit reasons:<br />\\n Minimum numbers of total sent emails in a day not met. Actual(0) and Target(10000).,<br />\\nDelivered percent minimum target not met. Actual(0) Target(1))\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Warm-Up status",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "https://api.mimepost.com/v1/warmup_status/"
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": "https://api.mimepost.com/v1/warmup_status/"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 11:50:31 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "68"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 1,\n    \"message\": \"Warmup status extracted.\",\n    \"warmup_status\": 1\n}"
+						}
+					]
+				}
+			],
+			"description": "Plan and track domain/IP warm-up schedules with day-wise progress."
+		},
+		{
+			"name": "Profile",
+			"item": [
+				{
+					"name": "Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}"
+							}
+						],
+						"url": "{{api_url}}account/profile"
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}"
+									}
+								],
+								"url": "{{api_url}}account/profile"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 12:37:45 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "562"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 1,\n    \"message\": \"Account profile details extracted successfully.\",\n    \"data\": {\n        \"instance_id\": 8773,\n        \"entered\": \"2025-07-29 17:00:18\",\n        \"first_name\": \"Sachin Tiwari\",\n        \"last_name\": null,\n        \"address\": \"Room No: 1, Ramgad Nagar, P. K Road, Opp. Vishnu Tower, Mulund West, Maharastra\",\n        \"city\": \"MUMBAI\",\n        \"country\": \"India\",\n        \"phone_number\": \"09029660440\",\n        \"skype_id\": null,\n        \"company_name\": null,\n        \"website\": null,\n        \"twitter_handle\": null,\n        \"linkedin\": null,\n        \"billing_name\": \"Symbolist\",\n        \"billing_company_name\": null,\n        \"billing_address\": null,\n        \"username\": \"mimepost_trans\",\n        \"email\": \"community@mimepost.com\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Critical alerts",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_url}}"
+							}
+						],
+						"url": "{{api_url}}alerts/"
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_url}}"
+									}
+								],
+								"url": "{{api_url}}alerts/"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 12:36:38 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "77"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 1,\n    \"message\": \"Alerts extracted successfully!\",\n    \"data\": {\n        \"alerts\": []\n    }\n}"
+						}
+					]
+				}
+			],
+			"description": "Retrieve the authenticated account’s profile and basic settings."
+		},
+		{
+			"name": "Billing",
+			"item": [
+				{
+					"name": "Current plan",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{api_url}}account/billing/plan/current"
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									}
+								],
+								"url": "{{api_url}}account/billing/plan/current"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 13:40:42 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "846"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 1,\n    \"message\": \"User current plan details\",\n    \"data\": {\n        \"id\": 63,\n        \"name\": \"PREMIUM PLAN\",\n        \"plan_label\": \"PREMIUM PLAN\",\n        \"credits\": 500000,\n        \"credits_unlimited\": 0,\n        \"price_inr\": 5000,\n        \"price_usd\": 59,\n        \"price_eur\": 59,\n        \"validity_mon\": 1,\n        \"regular_plan\": 1,\n        \"speed\": 3000,\n        \"reseller\": 61,\n        \"default_reseller_plan\": 0,\n        \"default_plan\": 0,\n        \"is_postpaid\": 0,\n        \"free_credits\": 500000,\n        \"price_per_1k_usd\": \"0.10000\",\n        \"active\": 1,\n        \"sending_ip_type\": \"1 Dedicated IP\",\n        \"plan_sequence_id\": null,\n        \"featured_plan\": 1,\n        \"first_time_free_days\": 0,\n        \"PLAN_START_DATE\": \"2019-08-20\",\n        \"PLAN_END_DATE\": \"2023-08-31\",\n        \"EXPIRE_ACCOUNT\": 0,\n        \"OLD_PLAN_NAME\": \"\",\n        \"OLD_PLAN_ID\": 0,\n        \"OLD_PLAN_START_DATE\": \"\",\n        \"OLD_PLAN_END_DATE\": \"\",\n        \"OLD_PLAN_CREDITS_UNLIMITED\": 0,\n        \"OLD_PLAN_SENDING_IP_TYPE\": \"\",\n        \"OLD_PLAN_SPEED\": 0,\n        \"OLD_PLAN_LABEL\": 0,\n        \"days_remaing\": 0,\n        \"BALANCE\": 18,\n        \"credits_used\": 499982,\n        \"credits_used_perc\": 99.9964,\n        \"currency\": \"USD\"\n    }\n}"
+						},
+						{
+							"name": "500 Internal Server Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									}
+								],
+								"url": "{{api_url}}account/billing/plan/current"
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 11:19:22 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "54"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=UTF-8"
+								}
+							],
+							"cookie": [],
+							"body": "Error occurred. Contact support with error_code(ES155)"
+						}
+					]
+				},
+				{
+					"name": "Billing Information",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{api_url}}account/billing/info"
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									}
+								],
+								"url": "{{api_url}}account/billing/info"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 13:41:10 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "413"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=UTF-8"
+								}
+							],
+							"cookie": [],
+							"body": "{\"success\":1,\"message\":\"Billing details extracted\",\"data\":{\"id\":56426,\"instance_id\":8773,\"instance_name\":\"mimepost_trans\",\"product_name\":null,\"currency\":null,\"entered\":\"2025-09-03 14:28:01\",\"contact_person_first_name\":null,\"contact_person_last_name\":null,\"company_name\":null,\"state\":null,\"gstin\":null,\"city\":null,\"pincode\":null,\"country\":null,\"address\":null,\"phone_number\":null,\"billing_email\":\"\"},\"error_code\":0}"
+						}
+					]
+				},
+				{
+					"name": "Payment history",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}account/billing/payments/?start=0&limit=10",
+							"host": [
+								"{{api_url}}account"
+							],
+							"path": [
+								"billing",
+								"payments",
+								""
+							],
+							"query": [
+								{
+									"key": "start",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_url}}account/billing/payments/?start=0&limit=10",
+									"host": [
+										"{{api_url}}account"
+									],
+									"path": [
+										"billing",
+										"payments",
+										""
+									],
+									"query": [
+										{
+											"key": "start",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 13:41:32 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "89"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=UTF-8"
+								}
+							],
+							"cookie": [],
+							"body": "{\"success\":1,\"message\":\"got payments successfully\",\"data\":{\"payments\":[]},\"error_code\":0}"
+						}
+					]
+				}
+			],
+			"description": "View current plan, billing information, and payment history."
+		},
+		{
+			"name": "Domains",
+			"item": [
+				{
+					"name": "List domains",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "{{api_url}}domains"
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": "{{api_url}}domains"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 10:40:35 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "523"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 1,\n    \"message\": \"sending doamins extracted successfully\",\n    \"data\": [\n        {\n            \"id\": 15516,\n            \"domain\": \"example-mp.com\",\n            \"selector\": \"sm\",\n            \"instance_name\": \"mimepost124\",\n            \"spf_verified\": 0,\n            \"dkim_verified\": 0,\n            \"tracking_verified\": 0,\n            \"verified\": 0,\n            \"approved\": 0,\n            \"status\": \"NOT_VERIFIED\",\n            \"status_desc\": \"NOT_VERIFIED\",\n            \"entered\": \"2025-09-08 16:09:37\",\n            \"active\": 1,\n            \"spf_record\": \"\",\n            \"dkim_record\": \"\",\n            \"tracking_record\": \"\",\n            \"dns_domain\": \"\",\n            \"map_id\": 0,\n            \"info\": 0,\n            \"alexa_rank_global\": null,\n            \"alexa_rank_country\": null,\n            \"alexa_country_name\": null,\n            \"create_date\": null\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Get a domain's details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}domains/:domainId",
+							"host": [
+								"{{api_url}}domains"
+							],
+							"path": [
+								":domainId"
+							],
+							"variable": [
+								{
+									"key": "domainId",
+									"value": "{{domain_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_url}}domains/:domainId",
+									"host": [
+										"{{api_url}}domains"
+									],
+									"path": [
+										":domainId"
+									],
+									"variable": [
+										{
+											"key": "domainId",
+											"value": "{{domain_id}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 10:41:13 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "890"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 1,\n    \"message\": \"sending doamins extracted successfully\",\n    \"data\": {\n        \"id\": 15516,\n        \"domain\": \"example-mp.com\",\n        \"selector\": \"sm\",\n        \"instance_name\": \"mimepost124\",\n        \"spf_verified\": 0,\n        \"dkim_verified\": 0,\n        \"tracking_verified\": 0,\n        \"verified\": 0,\n        \"approved\": 0,\n        \"status\": \"NOT_VERIFIED\",\n        \"status_desc\": \"NOT_VERIFIED\",\n        \"entered\": \"2025-09-08 16:09:37\",\n        \"active\": 1,\n        \"spf_record\": \"\",\n        \"dkim_record\": \"\",\n        \"tracking_record\": \"\",\n        \"dns_domain\": \"\",\n        \"map_id\": 0,\n        \"info\": 0,\n        \"alexa_rank_global\": null,\n        \"alexa_rank_country\": null,\n        \"alexa_country_name\": null,\n        \"create_date\": null,\n        \"required_spf_record\": {\n            \"TYPE\": \"TXT\",\n            \"HOST\": \"example-mp.com\",\n            \"VALUE\": \"v=spf1 include:_spf.mimepost124-d15516.swp23.com ~all\"\n        },\n        \"required_dkim_record\": {\n            \"TYPE\": \"CNAME\",\n            \"HOST\": \"sm._domainkey.example-mp.com\",\n            \"VALUE\": \"dkim.mimepost124-d15516.swp23.com\"\n        },\n        \"required_tracking_record\": {\n            \"TYPE\": \"CNAME\",\n            \"HOST\": \"smtracking.example-mp.com\",\n            \"VALUE\": \"smtracking.mimepost124.swp23.com\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Create a domain",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"domain\": \"example-mp.com\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{api_url}}domains/"
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"domain\": \"example-mp.com\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{api_url}}domains/"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 10:39:37 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "87"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 1,\n    \"message\": \"Sending domain added successfully!\",\n    \"data\": {\n        \"domain_id\": 15516\n    }\n}"
+						},
+						{
+							"name": "400 Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"domain\": \"example_mp.com\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{api_url}}domains/"
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 10:38:45 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "54"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 0,\n    \"message\": \"Not a valid domain\",\n    \"data\": \"\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Verify an SPF record",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"domain\": \"examplesachin.com\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}domains/:domainid/verify_spf/",
+							"host": [
+								"{{api_url}}domains"
+							],
+							"path": [
+								":domainid",
+								"verify_spf",
+								""
+							],
+							"variable": [
+								{
+									"key": "domainid",
+									"value": "{{domain_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"domain\": \"examplesachin.com\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_url}}domains/:domainid/verify_spf/",
+									"host": [
+										"{{api_url}}domains"
+									],
+									"path": [
+										":domainid",
+										"verify_spf",
+										""
+									],
+									"variable": [
+										{
+											"key": "domainid",
+											"value": "{{domain_id}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 10:42:46 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "52"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 0,\n    \"message\": \"SPF not verified\",\n    \"data\": \"\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Verify DKIM status",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"domain\": \"examplesachin.com\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}domains/:domainid/verify_dkim/",
+							"host": [
+								"{{api_url}}domains"
+							],
+							"path": [
+								":domainid",
+								"verify_dkim",
+								""
+							],
+							"variable": [
+								{
+									"key": "domainid",
+									"value": "{{domain_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"domain\": \"examplesachin.com\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_url}}domains/:domainid/verify_dkim/",
+									"host": [
+										"{{api_url}}domains"
+									],
+									"path": [
+										":domainid",
+										"verify_dkim",
+										""
+									],
+									"variable": [
+										{
+											"key": "domainid",
+											"value": "{{domain_id}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 10:43:26 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "53"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 0,\n    \"message\": \"DKIM Not verified\",\n    \"data\": \"\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Verify Tracking Record",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"domain\": \"examplesachin.com\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}domains/:domainid/verify_tracking/",
+							"host": [
+								"{{api_url}}domains"
+							],
+							"path": [
+								":domainid",
+								"verify_tracking",
+								""
+							],
+							"variable": [
+								{
+									"key": "domainid",
+									"value": "{{domain_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"domain\": \"examplesachin.com\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_url}}domains/:domainid/verify_tracking/",
+									"host": [
+										"{{api_url}}domains"
+									],
+									"path": [
+										":domainid",
+										"verify_tracking",
+										""
+									],
+									"variable": [
+										{
+											"key": "domainid",
+											"value": "{{domain_id}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 10:43:37 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "57"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 0,\n    \"message\": \"Tracking Not verified\",\n    \"data\": \"\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Submit for Review & Approval",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"domain\": \"examplesachin.com\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}domains/:domainid/approve/",
+							"host": [
+								"{{api_url}}domains"
+							],
+							"path": [
+								":domainid",
+								"approve",
+								""
+							],
+							"variable": [
+								{
+									"key": "domainid",
+									"value": "{{domain_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"domain\": \"examplesachin.com\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_url}}domains/:domainid/approve/",
+									"host": [
+										"{{api_url}}domains"
+									],
+									"path": [
+										":domainid",
+										"approve",
+										""
+									],
+									"variable": [
+										{
+											"key": "domainid",
+											"value": "{{domain_id}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 10:44:12 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "65"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 1,\n    \"message\": \"Domain approve successful....\",\n    \"data\": \"\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete a domain",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"domain\": \"examplesachins.com\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}domains/:domainId",
+							"host": [
+								"{{api_url}}domains"
+							],
+							"path": [
+								":domainId"
+							],
+							"variable": [
+								{
+									"key": "domainId",
+									"value": "{{domain_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"domain\": \"examplesachins.com\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_url}}domains/:domainId",
+									"host": [
+										"{{api_url}}domains"
+									],
+									"path": [
+										":domainId"
+									],
+									"variable": [
+										{
+											"key": "domainId",
+											"value": "{{domain_id}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 10:44:38 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "90"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 1,\n    \"message\": \"sending domain deleted successfully\",\n    \"data\": {\n        \"domain_id\": \"15516\"\n    }\n}"
+						}
+					]
+				}
+			],
+			"description": "Add, verify, and manage sending domains (SPF, DKIM, tracking)."
+		},
+		{
+			"name": "Webhooks",
+			"item": [
+				{
+					"name": "List webhooks",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "{{api_url}}webhooks"
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": "{{api_url}}webhooks"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 11:37:23 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "326"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 1,\n    \"message\": \"Webhook found\",\n    \"data\": {\n        \"webhook_data\": [\n            {\n                \"id\": 155,\n                \"entered\": \"2025-09-08 11:35:08\",\n                \"url\": \"https://www.example.com/webhook-test-tracking\",\n                \"active\": 1,\n                \"desc\": \"My Webhook for delivered\",\n                \"secret\": \"NmM0YjlkMWE1Mi0xNzU3MzMxMzA4\",\n                \"events\": [\n                    \"click\",\n                    \"bounce_soft\",\n                    \"bounce_hard\",\n                    \"unsubscribe\"\n                ]\n            }\n        ],\n        \"fail_count\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get a webhook",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}webhooks/:webhookId",
+							"host": [
+								"{{api_url}}webhooks"
+							],
+							"path": [
+								":webhookId"
+							],
+							"variable": [
+								{
+									"key": "webhookId",
+									"value": "{{webhook_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_url}}webhooks/:webhookId",
+									"host": [
+										"{{api_url}}webhooks"
+									],
+									"path": [
+										":webhookId"
+									],
+									"variable": [
+										{
+											"key": "webhookId",
+											"value": "{{webhook_id}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 11:37:47 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "292"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 1,\n    \"message\": \"Webhook found\",\n    \"data\": {\n        \"id\": 155,\n        \"entered\": \"2025-09-08 11:35:08\",\n        \"url\": \"https://www.example.com/webhook-test-tracking\",\n        \"active\": 1,\n        \"desc\": \"My Webhook for delivered\",\n        \"secret\": \"NmM0YjlkMWE1Mi0xNzU3MzMxMzA4\",\n        \"events\": [\n            \"click\",\n            \"bounce_soft\",\n            \"bounce_hard\",\n            \"unsubscribe\"\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Create a webhook",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"desc\": \"My Webhook for delivered\",\n  \"url\": \"https://www.example.com/webhook-test-tracking\",\n  \"events\": [\n    \"delivered\",\n    \"request\",\n    \"spam\",\n    \"block_soft\",\n    \"block_hard\",\n    \"open\",\n    \"click\",\n    \"bounce_soft\",\n    \"bounce_hard\",\n    \"unsubscribe\"\n  ],\n  \"active\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}webhooks/",
+							"host": [
+								"{{api_url}}webhooks"
+							],
+							"path": [
+								""
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"desc\": \"My Webhook for delivered\",\n  \"url\": \"https://webhook.site/356a72a6-3ec0-451a-ba4b-882af5d07d78\",\n  \"events\": [\n    \"delivered\",\n    \"request\",\n    \"spam\",\n    \"block_soft\",\n    \"block_hard\",\n    \"open\",\n    \"click\",\n    \"bounce_soft\",\n    \"bounce_hard\",\n    \"unsubscribe\"\n  ],\n  \"active\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_url}}webhooks/",
+									"host": [
+										"{{api_url}}webhooks"
+									],
+									"path": [
+										""
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 11:35:07 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "70"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 1,\n    \"message\": \"Webhook added successfully\",\n    \"data\": {\n        \"id\": 155\n    }\n}"
+						},
+						{
+							"name": "400 Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"desc\": \"My Webhook for delivered\",\n  \"url\": \"\",\n  \"events\": [\n    \"delivered\",\n    \"request\",\n    \"spam\",\n    \"block_soft\",\n    \"block_hard\",\n    \"open\",\n    \"click\",\n    \"bounce_soft\",\n    \"bounce_hard\",\n    \"unsubscribe\"\n  ],\n  \"active\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_url}}webhooks/",
+									"host": [
+										"{{api_url}}webhooks"
+									],
+									"path": [
+										""
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 11:35:36 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "52"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 0,\n    \"message\": \"url is required.\",\n    \"data\": \"\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Edit a webhook",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"desc\": \"My Webhook for delivered\",\n  \"url\": \"https://www.example.com/webhook-test-tracking\",\n  \"events\": [\n    \"click\",\n    \"bounce_soft\",\n    \"bounce_hard\",\n    \"unsubscribe\"\n  ],\n  \"active\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}webhooks/:webhookId",
+							"host": [
+								"{{api_url}}webhooks"
+							],
+							"path": [
+								":webhookId"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "webhookId",
+									"value": "{{webhook_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"desc\": \"My Webhook for delivered\",\n  \"url\": \"https://www.example.com/webhook-test-tracking\",\n  \"events\": [\n    \"click\",\n    \"bounce_soft\",\n    \"bounce_hard\",\n    \"unsubscribe\"\n  ],\n  \"active\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_url}}webhooks/:webhookId",
+									"host": [
+										"{{api_url}}webhooks"
+									],
+									"path": [
+										":webhookId"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "webhookId",
+											"value": "{{webhook_id}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 11:37:05 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "70"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 1,\n    \"message\": \"Webhook updated successfully\",\n    \"data\": {\n        \"id\": 1\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Test a webhook URL",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"url\": \"http://www.example.com/webhook-test-tracking\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}webhooks/test",
+							"host": [
+								"{{api_url}}webhooks"
+							],
+							"path": [
+								"test"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"url\": \"https://webhook.site/356a72a6-3ec0-451a-ba4b-882af5d07d78\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_url}}webhooks/test",
+									"host": [
+										"{{api_url}}webhooks"
+									],
+									"path": [
+										"test"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 11:34:33 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "76"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 1,\n    \"message\": \"Sample event Posted on URL successfully.\",\n    \"data\": \"\"\n}"
+						},
+						{
+							"name": "400 Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"url\": \"http://www.example.com/webhook-test-tracking\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_url}}webhooks/test",
+									"host": [
+										"{{api_url}}webhooks"
+									],
+									"path": [
+										"test"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 11:31:19 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "84"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 0,\n    \"message\": \"URL not returning 200 HTTP response status code.\",\n    \"data\": \"\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete a webhook",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"desc\": \"My Webhook for delivered\",\n  \"url\": \"https://www.example.com/webhook-test-tracking\",\n  \"events\": [\n    \"click\",\n    \"bounce_soft\",\n    \"bounce_hard\",\n    \"unsubscribe\"\n  ],\n  \"active\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}webhooks/:webhookId",
+							"host": [
+								"{{api_url}}webhooks"
+							],
+							"path": [
+								":webhookId"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "webhookId",
+									"value": "{{webhook_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"desc\": \"My Webhook for delivered\",\n  \"url\": \"https://www.example.com/webhook-test-tracking\",\n  \"events\": [\n    \"click\",\n    \"bounce_soft\",\n    \"bounce_hard\",\n    \"unsubscribe\"\n  ],\n  \"active\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_url}}webhooks/:webhookId",
+									"host": [
+										"{{api_url}}webhooks"
+									],
+									"path": [
+										":webhookId"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "webhookId",
+											"value": "{{webhook_id}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 11:39:50 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "62"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 1,\n    \"message\": \"webhook removed successful\",\n    \"data\": \"\"\n}"
+						},
+						{
+							"name": "400 Bad Request",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"desc\": \"My Webhook for delivered\",\n  \"url\": \"https://www.example.com/webhook-test-tracking\",\n  \"events\": [\n    \"click\",\n    \"bounce_soft\",\n    \"bounce_hard\",\n    \"unsubscribe\"\n  ],\n  \"active\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_url}}webhooks/:webhookId",
+									"host": [
+										"{{api_url}}webhooks"
+									],
+									"path": [
+										":webhookId"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "webhookId",
+											"value": "{{webhook_id}}"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 11:39:07 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "70"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 0,\n    \"message\": \"Failed to remove webhook from ssdb\",\n    \"data\": \"\"\n}"
+						}
+					]
+				}
+			],
+			"description": "Configure endpoints to receive real-time delivery and engagement events."
+		},
+		{
+			"name": "Stats",
+			"item": [
+				{
+					"name": "Get summary of stats",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}stats",
+							"host": [
+								"{{api_url}}stats"
+							],
+							"query": [
+								{
+									"key": "start_date",
+									"value": "20250902",
+									"description": "Filter stats starting from the date specified (inclusive). e.g. 20250902",
+									"disabled": true
+								},
+								{
+									"key": "end_date",
+									"value": "20250903",
+									"description": "Filter stats up to the date specified (inclusive). e.g. 20250903",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_url}}stats",
+									"host": [
+										"{{api_url}}stats"
+									],
+									"query": [
+										{
+											"key": "start_date",
+											"value": "20250902",
+											"description": "Filter stats starting from the date specified (inclusive). e.g. 20250902",
+											"disabled": true
+										},
+										{
+											"key": "end_date",
+											"value": "20250903",
+											"description": "Filter stats up to the date specified (inclusive). e.g. 20250903",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 11:13:49 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "3963"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=UTF-8"
+								}
+							],
+							"cookie": [],
+							"body": "{\"success\":1,\"message\":\"summary extracted successfully.\",\"data\":{\"total_summary\":{\"request\":{\"count\":0,\"perc\":0},\"delivered\":{\"count\":0,\"perc\":0},\"open\":{\"count\":7,\"perc\":0},\"click\":{\"count\":0,\"perc\":0},\"unsubscribe\":{\"count\":0,\"perc\":0},\"bounce_soft\":{\"count\":0,\"perc\":0},\"bounce_hard\":{\"count\":0,\"perc\":0},\"block_hard\":{\"count\":0,\"perc\":0},\"block_soft\":{\"count\":0,\"perc\":0},\"spam\":{\"count\":0,\"perc\":0}},\"datewise_summary\":{\"20250901\":{\"request\":{\"count\":0,\"perc\":0},\"delivered\":{\"count\":0,\"perc\":0},\"open\":{\"count\":\"1\",\"perc\":0},\"click\":{\"count\":0,\"perc\":0},\"unsubscribe\":{\"count\":0,\"perc\":0},\"bounce_soft\":{\"count\":0,\"perc\":0},\"bounce_hard\":{\"count\":0,\"perc\":0},\"block_soft\":{\"count\":0,\"perc\":0},\"block_hard\":{\"count\":0,\"perc\":0},\"spam\":{\"count\":0,\"perc\":0}},\"20250902\":{\"request\":{\"count\":0,\"perc\":0},\"delivered\":{\"count\":0,\"perc\":0},\"open\":{\"count\":\"2\",\"perc\":0},\"click\":{\"count\":0,\"perc\":0},\"unsubscribe\":{\"count\":0,\"perc\":0},\"bounce_soft\":{\"count\":0,\"perc\":0},\"bounce_hard\":{\"count\":0,\"perc\":0},\"block_soft\":{\"count\":0,\"perc\":0},\"block_hard\":{\"count\":0,\"perc\":0},\"spam\":{\"count\":0,\"perc\":0}},\"20250903\":{\"request\":{\"count\":0,\"perc\":0},\"delivered\":{\"count\":0,\"perc\":0},\"open\":{\"count\":0,\"perc\":0},\"click\":{\"count\":0,\"perc\":0},\"unsubscribe\":{\"count\":0,\"perc\":0},\"bounce_soft\":{\"count\":0,\"perc\":0},\"bounce_hard\":{\"count\":0,\"perc\":0},\"block_soft\":{\"count\":0,\"perc\":0},\"block_hard\":{\"count\":0,\"perc\":0},\"spam\":{\"count\":0,\"perc\":0}},\"20250904\":{\"request\":{\"count\":0,\"perc\":0},\"delivered\":{\"count\":0,\"perc\":0},\"open\":{\"count\":\"1\",\"perc\":0},\"click\":{\"count\":0,\"perc\":0},\"unsubscribe\":{\"count\":0,\"perc\":0},\"bounce_soft\":{\"count\":0,\"perc\":0},\"bounce_hard\":{\"count\":0,\"perc\":0},\"block_soft\":{\"count\":0,\"perc\":0},\"block_hard\":{\"count\":0,\"perc\":0},\"spam\":{\"count\":0,\"perc\":0}},\"20250905\":{\"request\":{\"count\":0,\"perc\":0},\"delivered\":{\"count\":0,\"perc\":0},\"open\":{\"count\":\"2\",\"perc\":0},\"click\":{\"count\":0,\"perc\":0},\"unsubscribe\":{\"count\":0,\"perc\":0},\"bounce_soft\":{\"count\":0,\"perc\":0},\"bounce_hard\":{\"count\":0,\"perc\":0},\"block_soft\":{\"count\":0,\"perc\":0},\"block_hard\":{\"count\":0,\"perc\":0},\"spam\":{\"count\":0,\"perc\":0}},\"20250906\":{\"request\":{\"count\":0,\"perc\":0},\"delivered\":{\"count\":0,\"perc\":0},\"open\":{\"count\":0,\"perc\":0},\"click\":{\"count\":0,\"perc\":0},\"unsubscribe\":{\"count\":0,\"perc\":0},\"bounce_soft\":{\"count\":0,\"perc\":0},\"bounce_hard\":{\"count\":0,\"perc\":0},\"block_soft\":{\"count\":0,\"perc\":0},\"block_hard\":{\"count\":0,\"perc\":0},\"spam\":{\"count\":0,\"perc\":0}},\"20250907\":{\"request\":{\"count\":0,\"perc\":0},\"delivered\":{\"count\":0,\"perc\":0},\"open\":{\"count\":0,\"perc\":0},\"click\":{\"count\":0,\"perc\":0},\"unsubscribe\":{\"count\":0,\"perc\":0},\"bounce_soft\":{\"count\":0,\"perc\":0},\"bounce_hard\":{\"count\":0,\"perc\":0},\"block_soft\":{\"count\":0,\"perc\":0},\"block_hard\":{\"count\":0,\"perc\":0},\"spam\":{\"count\":0,\"perc\":0}},\"20250908\":{\"request\":{\"count\":0,\"perc\":0},\"delivered\":{\"count\":0,\"perc\":0},\"open\":{\"count\":\"1\",\"perc\":0},\"click\":{\"count\":0,\"perc\":0},\"unsubscribe\":{\"count\":0,\"perc\":0},\"bounce_soft\":{\"count\":0,\"perc\":0},\"bounce_hard\":{\"count\":0,\"perc\":0},\"block_soft\":{\"count\":0,\"perc\":0},\"block_hard\":{\"count\":0,\"perc\":0},\"spam\":{\"count\":0,\"perc\":0}}},\"graph_summary\":{\"dates\":[\"2025-09-01\",\"2025-09-02\",\"2025-09-03\",\"2025-09-04\",\"2025-09-05\",\"2025-09-06\",\"2025-09-07\",\"2025-09-08\"],\"request_counts\":[0,0,0,0,0,0,0,0],\"request_percs\":[0,0,0,0,0,0,0,0],\"delivered_counts\":[0,0,0,0,0,0,0,0],\"delivered_percs\":[0,0,0,0,0,0,0,0],\"open_counts\":[1,2,0,1,2,0,0,1],\"open_percs\":[0,0,0,0,0,0,0,0],\"click_counts\":[0,0,0,0,0,0,0,0],\"click_percs\":[0,0,0,0,0,0,0,0],\"unsubscribe_counts\":[0,0,0,0,0,0,0,0],\"unsubscribe_percs\":[0,0,0,0,0,0,0,0],\"bounce_soft_counts\":[0,0,0,0,0,0,0,0],\"bounce_soft_percs\":[0,0,0,0,0,0,0,0],\"bounce_hard_counts\":[0,0,0,0,0,0,0,0],\"bounce_hard_percs\":[0,0,0,0,0,0,0,0],\"block_soft_counts\":[0,0,0,0,0,0,0,0],\"block_soft_percs\":[0,0,0,0,0,0,0,0],\"block_hard_counts\":[0,0,0,0,0,0,0,0],\"block_hard_percs\":[0,0,0,0,0,0,0,0],\"spam_counts\":[0,0,0,0,0,0,0,0],\"spam_percs\":[0,0,0,0,0,0,0,0]}}}"
+						}
+					]
+				},
+				{
+					"name": "Get emaillogs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}emaillogs?start_date=20250902&end_date=20250903&status=open&message_id=439a829a-3979-4733-9f94-dfbe195620d4@txc-netdcon-8v.top&start=0&length=2",
+							"host": [
+								"{{api_url}}emaillogs"
+							],
+							"query": [
+								{
+									"key": "start_date",
+									"value": "20250902",
+									"description": "Filter stats starting from the date specified (inclusive). e.g. 20250902"
+								},
+								{
+									"key": "end_date",
+									"value": "20250903",
+									"description": "Filter stats up to the date specified (inclusive). e.g. 20250903"
+								},
+								{
+									"key": "status",
+									"value": "open",
+									"description": "Filter by status values : request, delivered, open, click, unsubscribe, bounce_soft, bounce_hard, block_soft, block_hard, spam"
+								},
+								{
+									"key": "message_id",
+									"value": "439a829a-3979-4733-9f94-dfbe195620d4@txc-netdcon-8v.top",
+									"description": "Filter by message_id."
+								},
+								{
+									"key": "start",
+									"value": "0"
+								},
+								{
+									"key": "length",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_url}}emaillogs?start_date=20250905&end_date=20250908&status=open&message_id=439a829a-3979-4733-9f94-dfbe195620d4@txc-netdcon-8v.top&start=0&length=2",
+									"host": [
+										"{{api_url}}emaillogs"
+									],
+									"query": [
+										{
+											"key": "start_date",
+											"value": "20250905",
+											"description": "Filter stats starting from the date specified (inclusive). e.g. 20250902"
+										},
+										{
+											"key": "end_date",
+											"value": "20250908",
+											"description": "Filter stats up to the date specified (inclusive). e.g. 20250903"
+										},
+										{
+											"key": "status",
+											"value": "open",
+											"description": "Filter by status values : request, delivered, open, click, unsubscribe, bounce_soft, bounce_hard, block_soft, block_hard, spam"
+										},
+										{
+											"key": "message_id",
+											"value": "439a829a-3979-4733-9f94-dfbe195620d4@txc-netdcon-8v.top",
+											"description": "Filter by message_id."
+										},
+										{
+											"key": "start",
+											"value": "0"
+										},
+										{
+											"key": "length",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 11:14:41 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "2451"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=UTF-8"
+								}
+							],
+							"cookie": [],
+							"body": "<html>\n    <head>\n        <title>Slim Application Error</title>\n        <style>body{margin:0;padding:30px;font:12px/1.5 Helvetica,Arial,Verdana,sans-serif;}h1{margin:0;font-size:48px;font-weight:normal;line-height:48px;}strong{display:inline-block;width:65px;}</style>\n    </head>\n    <body>\n        <h1>Slim Application Error</h1>\n        <p>The application could not run because of the following error:</p>\n        <h2>Details</h2>\n        <div>\n            <strong>Type:</strong> ClickHouseDB\\QueryException\n        </div>\n        <div>\n            <strong>Code:</strong> 28\n        </div>\n        <div>\n            <strong>Message:</strong> Operation timed out after 20001 milliseconds with 0 out of -1 bytes received\n        </div>\n        <div>\n            <strong>File:</strong> /var/www/html/qunovamail/deliverybox/vendor/smi2/phpclickhouse/src/Statement.php\n        </div>\n        <div>\n            <strong>Line:</strong> 174\n        </div>\n        <h2>Trace</h2>\n        <pre>\n            <div>#0 /var/www/html/qunovamail/deliverybox/vendor/smi2/phpclickhouse/src/Statement.php(196): ClickHouseDB\\Statement->error()</div>\n            <div>#1 /var/www/html/qunovamail/deliverybox/vendor/smi2/phpclickhouse/src/Statement.php(210): ClickHouseDB\\Statement->check()</div>\n            <div>#2 /var/www/html/qunovamail/deliverybox/vendor/smi2/phpclickhouse/src/Statement.php(459): ClickHouseDB\\Statement->init()</div>\n            <div>#3 /var/www/html/qunovamail/deliverybox/modules/EmaillogsAdapterClickhouse.php(161): ClickHouseDB\\Statement->rows()</div>\n            <div>#4 /var/www/html/qunovamail/deliverybox/modules/Emaillogs.php(148): EmaillogsAdapterClickhouse->get(Array)</div>\n            <div>#5 /var/www/html/qunovamail/deliverybox/web/v1/api/v1/index.php(1461): Emaillogs->get(Array)</div>\n            <div>#6 [internal function]: {closure}()</div>\n            <div>#7 /var/www/html/qunovamail/deliverybox/vendor/slim/slim/Slim/Route.php(468): call_user_func_array(Object(Closure), Array)</div>\n            <div>#8 /var/www/html/qunovamail/deliverybox/vendor/slim/slim/Slim/Slim.php(1357): Slim\\Route->dispatch()</div>\n            <div>#9 /var/www/html/qunovamail/deliverybox/vendor/slim/slim/Slim/Middleware/Flash.php(85): Slim\\Slim->call()</div>\n            <div>#10 /var/www/html/qunovamail/deliverybox/vendor/slim/slim/Slim/Middleware/MethodOverride.php(92): Slim\\Middleware\\Flash->call()</div>\n            <div>#11 /var/www/html/qunovamail/deliverybox/vendor/slim/slim/Slim/Middleware/PrettyExceptions.php(67): Slim\\Middleware\\MethodOverride->call()</div>\n            <div>#12 /var/www/html/qunovamail/deliverybox/vendor/slim/slim/Slim/Slim.php(1302): Slim\\Middleware\\PrettyExceptions->call()</div>\n            <div>#13 /var/www/html/qunovamail/deliverybox/web/v1/api/v1/index.php(2999): Slim\\Slim->run()</div>\n            <div>#14 {main}\n            </pre>\n        </body>\n    </html>"
+						}
+					]
+				}
+			],
+			"description": "Query aggregate metrics for sends, deliveries, opens, clicks, bounces, and complaints."
+		},
+		{
+			"name": "Sandbox",
+			"item": [
+				{
+					"name": "List sanbox emails",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "{{api_url}}sandbox/emails"
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": "{{api_url}}sandbox/emails"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 11:16:39 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "308"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 1,\n    \"message\": \"List of all the sandbox emails\",\n    \"data\": [\n        {\n            \"created_at\": \"2025-04-29 10:04:45\",\n            \"email\": \"akash@starclinch.com\",\n            \"verified\": 1,\n            \"error\": 0,\n            \"error_message\": null\n        },\n        {\n            \"created_at\": \"2025-07-22 07:31:44\",\n            \"email\": \"tester_mp111@mailsac.com\",\n            \"verified\": 1,\n            \"error\": 0,\n            \"error_message\": null\n        }\n    ],\n    \"error_code\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Create a sanbox email",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"abc@example.com\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{api_url}}sandbox/emails"
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"mimepost_api@mailsac.com\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{api_url}}sandbox/emails"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 12:39:44 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "86"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 1,\n    \"message\": \"Email added to Sandbox Successfully\",\n    \"data\": [],\n    \"error_code\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Verify a sanbox email",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"verification_code\": \"YOUR_SANBOX_VERIFICATION_CODE\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}sandbox/emails/verify/:sandbox_email",
+							"host": [
+								"{{api_url}}sandbox"
+							],
+							"path": [
+								"emails",
+								"verify",
+								":sandbox_email"
+							],
+							"variable": [
+								{
+									"key": "sandbox_email",
+									"value": "{{sandbox_email}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"verification_code\": \"YOUR_SANBOX_VERIFICATION_CODE\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_url}}sandbox/emails/verify/:sandbox_email",
+									"host": [
+										"{{api_url}}sandbox"
+									],
+									"path": [
+										"emails",
+										"verify",
+										":sandbox_email"
+									],
+									"variable": [
+										{
+											"key": "sandbox_email",
+											"value": "{{sandbox_email}}"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 13:21:39 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "78"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 0,\n    \"message\": \"Invalid verification code\",\n    \"data\": [],\n    \"error_code\": 107\n}"
+						}
+					]
+				},
+				{
+					"name": "Resed sanbox email verification code",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}sandbox/emails/verify/:sandbox_email",
+							"host": [
+								"{{api_url}}sandbox"
+							],
+							"path": [
+								"emails",
+								"verify",
+								":sandbox_email"
+							],
+							"variable": [
+								{
+									"key": "sandbox_email",
+									"value": "{{sandbox_email}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_url}}sandbox/emails/verify/:sandbox_email",
+									"host": [
+										"{{api_url}}sandbox"
+									],
+									"path": [
+										"emails",
+										"verify",
+										":sandbox_email"
+									],
+									"variable": [
+										{
+											"key": "sandbox_email",
+											"value": "{{sandbox_email}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 12:40:32 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "73"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 1,\n    \"message\": \"Verification Email Sent Successfully!\",\n    \"data\": []\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete sanbox emails",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{api_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}sandbox/emails/:sandbox_email",
+							"host": [
+								"{{api_url}}sandbox"
+							],
+							"path": [
+								"emails",
+								":sandbox_email"
+							],
+							"variable": [
+								{
+									"key": "sandbox_email",
+									"value": "{{sandbox_email}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "{{api_token}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_url}}sandbox/emails/:sandbox_email",
+									"host": [
+										"{{api_url}}sandbox"
+									],
+									"path": [
+										"emails",
+										":sandbox_email"
+									],
+									"variable": [
+										{
+											"key": "sandbox_email",
+											"value": "{{sandbox_email}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 08 Sep 2025 13:31:47 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips PHP/5.5.38"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/5.5.38"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "94"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": 1,\n    \"message\": \"Email deleted successfully from the Sandbox\",\n    \"data\": [],\n    \"error_code\": 0\n}"
+						}
+					]
+				}
+			],
+			"description": "Safely test emails by whitelisting and verifying non-production recipients."
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": {
+			"value": "{{api_token}}",
+			"key": "X-Auth-Token",
+			"in": "header"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "api_url",
+			"value": "https://api.mimepost.com/v1/"
+		},
+		{
+			"key": "domain_id",
+			"value": "YOUR_DOMAIN_ID"
+		},
+		{
+			"key": "api_token",
+			"value": "YOUR_API_TOKEN"
+		},
+		{
+			"key": "template_uid",
+			"value": "YOUR_TEMPLATE_UID"
+		},
+		{
+			"key": "webhook_id",
+			"value": "YOUR_WEBHOOK_ID"
+		},
+		{
+			"key": "sandbox_email",
+			"value": "YOUR_SANDBOX_EMAIL"
+		},
+		{
+			"key": "template_id",
+			"value": "YOUR_TEMPLATE_ID"
+		},
+		{
+			"key": "warmup_plan_id",
+			"value": "YOUR_WARMUP_PLAN_ID"
+		}
+	]
+}
