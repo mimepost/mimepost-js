@@ -11,9 +11,9 @@ npm install mimepost-js
 ## Usage
 
 ```javascript
-const MimePostClient = require('mimepost-js');
+const MimePost = require('mimepost-js');
 
-const client = new MimePostClient({ apiToken: 'YOUR_API_TOKEN' });
+const client = new MimePost({ apiToken: 'YOUR_API_TOKEN' });
 
 // Send a transactional email
 await client.sendEmail({

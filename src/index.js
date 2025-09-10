@@ -1,4 +1,4 @@
-class MimePostClient {
+class MimePost {
   constructor({ apiToken, baseUrl = 'https://api.mimepost.com/v1/' } = {}) {
     if (!apiToken) throw new Error('apiToken is required');
     this.apiToken = apiToken;
@@ -34,4 +34,4 @@ class MimePostClient {
   }
 }
 
-module.exports = MimePostClient;
+module.exports = MimePost;
