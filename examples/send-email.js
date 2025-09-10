@@ -1,7 +1,7 @@
 //import
-//const MimePost = require('mimepost-js');
+const MimePost = require('@mimepost/mimepost-js');
 //OR 
-import MimePost from '../src/index.js';
+//import MimePost from '../src/index.js';
 
 const client = new MimePost({
   apiToken: 'YOUR_API_TOKEN'
