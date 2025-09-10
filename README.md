@@ -11,23 +11,40 @@ npm install @mimepost/mimepost-js
 ## Usage
 
 ```javascript
-const MimePost = require('mimepost-js');
+//import
+const MimePost = require('@mimepost/mimepost-js');
+//OR 
+//import MimePost from '../src/index.js';
 
-const client = new MimePost({ apiToken: 'YOUR_API_TOKEN' });
-
-// Send a transactional email
-await client.sendEmail({
-  template_uid: 'welcome_email',
-  subject: 'Welcome!',
-  from_email: 'from@example.com',
-  to: [{ email: 'to@example.com' }]
+const client = new MimePost({
+  apiToken: 'YOUR_API_KEY'
 });
 
+async function run() {
+  try {
+    const response = await client.sendEmail({
+      template_uid: 'welcome_email_test',
+      subject:      'Test Mail Node SDK using MimePost Client!',
+      from_name:    'Your Sender Name',
+      from_email:   'info@example.com',
+      to: [{ email: 'to@example.com' }]
+    }); 
+
+    console.log('Send Email Response:', response); // <— print success
+  } catch (err) {
+    console.error('Error sending email:', err);     // <— print error
+  }
+}
+
+run();
+
+
 // List templates
-const templates = await client.listTemplates();
+//const templates = await client.listTemplates();
 
 // Get a single template
-const template = await client.getTemplate('welcome_email');
+//const template = await client.getTemplate('welcome_email');
+
 ```
 
 The SDK was created from the Postman collection in `postman.json`. Refer to that file or the official MimePost documentation for all available endpoints and parameters.
