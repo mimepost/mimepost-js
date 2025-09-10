@@ -1,0 +1,12 @@
+{
+  "name": "mimepost-js",
+  "version": "0.1.0",
+  "description": "Simple Node.js SDK for the MimePost API",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": ["mimepost", "email", "sdk"],
+  "author": "",
+  "license": "MIT"
+}
