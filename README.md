@@ -5,7 +5,7 @@ A tiny and beginner-friendly Node.js SDK for the [MimePost](https://mimepost.com
 ## Installation
 
 ```bash
-npm install mimepost-js
+npm install @mimepost/mimepost-js
 ```
 
 ## Usage
